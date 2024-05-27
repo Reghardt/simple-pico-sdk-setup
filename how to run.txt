@@ -1,0 +1,50 @@
+Go to: https://github.com/raspberrypi/pico-sdk
+Clone Pico SDK to a folder, ie ~/Documents/Development/Pico/pico-sdk
+
+Create a folder for a pico project
+Create a file called CMakeLists.txt
+Copy this into file CMakeLists.txt (from same github link as above, under 2. "Or with the Raspberry Pi Pico SDK as a submodule"):
+```
+    cmake_minimum_required(VERSION 3.13)
+
+    include("../pico-sdk/pico_sdk_init.cmake") # relative path to pico-sdk
+
+    project(my_project CXX C ASM)
+
+    # initialize the Raspberry Pi Pico SDK
+    pico_sdk_init()
+
+    # rest of your project
+    add_executable(hello_world
+        hello_world.c
+    )
+
+    # Add pico_stdlib library which aggregates commonly used features
+    target_link_libraries(hello_world pico_stdlib)
+
+    # create map/bin/hex/uf2 file in addition to ELF.
+    pico_add_extra_outputs(hello_world)
+```
+
+Press Ctrl Shift P and run "c/c++: Edit Configuration
+Add "~/Documents/Development/Pico/pico-sdk/**" to includePath array. It should be the absolute path pointing to the pico sdk
+
+Run mkdir -p build && cd build && ls && cmake .. && make hello_world
+The build folder will be created and populated with output from the pico sdk, including a uf2 file.
+Copy uf2 file to pico
+
+
+POTENTIAL ISSUES:
+Error:
+CMake was unable to find a build program corresponding to "Unix Makefiles". CMAKE_MAKE_PROGRAM is not set. You probably need to select a different build tool.
+Solve:
+sudo pacman -S base-devel
+
+
+Error:
+CMake Error: Error required internal CMake variable not set, cmake may not be built correctly.
+Missing variable is:
+CMAKE_ASM_COMPILE_OBJECT
+...... many such lines
+Solve:
+https://stackoverflow.com/questions/74591036/cmake-error-while-trying-to-build-a-uf2-file-for-the-raspberry-pi-pico
