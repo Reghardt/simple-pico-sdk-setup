@@ -8,9 +8,7 @@ project(my_project CXX C ASM)
 pico_sdk_init()
 
 # rest of your project
-add_executable(hello_world
-    hello_world.c
-)
+add_executable(hello_world hello_world.c)
 
 # Add pico_stdlib library which aggregates commonly used features
 target_link_libraries(hello_world pico_stdlib)

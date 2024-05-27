@@ -1,23 +1,23 @@
 Go to: https://github.com/raspberrypi/pico-sdk
 Clone Pico SDK to a folder, ie ~/Documents/Development/Pico/pico-sdk
 
-Create a folder for a pico project
+Create a folder for a pico project and open it in VS code
 Create a file called CMakeLists.txt
-Copy this into file CMakeLists.txt (from same github link as above, under 2. "Or with the Raspberry Pi Pico SDK as a submodule"):
+Copy the below into CMakeLists.txt (sourced from the same github link as above, under 2. "Or with the Raspberry Pi Pico SDK as a submodule"):
 ```
     cmake_minimum_required(VERSION 3.13)
 
-    include("../pico-sdk/pico_sdk_init.cmake") # relative path to pico-sdk
+    include("../pico-sdk/pico_sdk_init.cmake") # update to be relative or absolute path to the pico-sdk's pico_sdk_init.cmake file
 
+    #project name, change as necessary
     project(my_project CXX C ASM)
 
     # initialize the Raspberry Pi Pico SDK
     pico_sdk_init()
 
     # rest of your project
-    add_executable(hello_world
-        hello_world.c
-    )
+    # project entry point name, replace "hello_world" throughout the file if the entrypoint file name changes.
+    add_executable(hello_world hello_world.c)
 
     # Add pico_stdlib library which aggregates commonly used features
     target_link_libraries(hello_world pico_stdlib)
@@ -35,13 +35,13 @@ Copy uf2 file to pico
 
 
 POTENTIAL ISSUES:
-Error:
+Error: (Occurred on Manjaro)
 CMake was unable to find a build program corresponding to "Unix Makefiles". CMAKE_MAKE_PROGRAM is not set. You probably need to select a different build tool.
 Solve:
 sudo pacman -S base-devel
 
 
-Error:
+Error: (Occurred on Manjaro)
 CMake Error: Error required internal CMake variable not set, cmake may not be built correctly.
 Missing variable is:
 CMAKE_ASM_COMPILE_OBJECT
